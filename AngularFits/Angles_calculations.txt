@@ -1,0 +1,90 @@
+bool RunAnalysis::CalculateAngles()
+{
+  
+  //name convention: m_xxxx for class members ( of type RunAnalysis )
+  //               :  _xxxx for local variables to the method ( except for xx,yy,zz :) )
+  //
+  //
+ 
+  //JPsi boost
+  TVector3 boost_jpsi_frame = - ( m_Jpsi_vec->BoostVector() );
+    
+  TLorentzVector * _phi_vec = new TLorentzVector ( *m_phi_vec );
+  TLorentzVector * _Kp_vec  = new TLorentzVector ( *m_Kp_vec );
+  
+  m_Mup_vec->Boost( boost_jpsi_frame );
+  m_phi_vec->Boost( boost_jpsi_frame );
+  m_Kp_vec->Boost ( boost_jpsi_frame );
+  m_Km_vec->Boost ( boost_jpsi_frame );
+  
+  double norm = m_phi_vec->Vect().Mag();
+  
+  //x along the phi direction
+  TVector3 xx = (1.0/norm) * TVector3( m_phi_vec->X(), m_phi_vec->Y(), m_phi_vec->Z() );
+  
+  norm = m_Kp_vec->Vect().Mag();
+  TVector3 K_plus  = (1.0/norm) * m_Kp_vec->Vect();
+  norm = m_Km_vec->Vect().Mag();
+  TVector3 K_minus = (1.0/norm) * m_Km_vec->Vect();
+  
+  TVector3 zz = K_minus.Cross( K_plus );
+  
+  norm =  zz.Mag();
+  
+  zz = (1.0/norm) * zz;
+  
+  TVector3 yy = -1.0 * xx.Cross(zz);
+  
+  if ( yy.Dot(K_plus) < 0 ) {
+    zz = TVector3( -1.0 * zz.X(), -1.0 * zz.Y(), -1.0 * zz.Z() );
+    yy = TVector3( -1.0 * yy.X(), -1.0 * yy.Y(), -1.0 * yy.Z() ); 
+  }
+  
+  TVector3 xyinter = TVector3( zz.X() , zz.Y() , 0.0);
+  
+  TVector3 xp      = TVector3( 1.0    , 0.0    , 0.0);
+  
+  double phi   = xyinter.Phi();
+  double theta = zz.Theta();
+  double psi   = xp.Angle( xx );
+  
+  TRotation a;
+  a.SetXPhi( phi );
+  a.SetXTheta( theta );
+  a.SetXPsi( psi );
+  
+  norm = m_Mup_vec->Vect().Mag();
+  
+  TVector3 ell_plus = (1.0 / norm) * m_Mup_vec->Vect();
+  
+  ell_plus.Transform(a);
+  K_plus.Transform(a);
+  
+  //..........................
+  //Get theta_tr
+  m_theta_tr = ell_plus.Angle( zz );
+
+  //..........................
+  //Get phi_tr
+  m_phi_tr = atan ( ell_plus.Dot( yy ) / ell_plus.Dot( xx ) );
+  
+  //Solve sign ambiguity:
+  if ( ell_plus.Dot( yy ) > 0 && ell_plus.Dot( xx ) < 0 )
+    m_phi_tr = m_phi_tr + TMath::Pi();
+  
+  if ( ell_plus.Dot( yy ) < 0 && ell_plus.Dot( xx ) < 0 ) 
+    m_phi_tr = m_phi_tr - TMath::Pi();
+
+  //...........................
+  //Get Psi
+  TVector3 boost_phi_frame = - ( _phi_vec->BoostVector() );
+  _Kp_vec->Boost ( boost_phi_frame );
+  
+  m_psi_tr     = _Kp_vec->Vect().Theta();
+  
+  delete _phi_vec;
+  delete _Kp_vec;
+
+  return true;
+    
+}

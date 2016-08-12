@@ -1,0 +1,74 @@
+#!/bin/csh
+#######################################################
+# Andres Osorio - aooliver@ph.ed.ac.uk
+	
+setenv EXECDIR /afs/cern.ch/user/a/aosorio/Work/ThreeAngles/exe
+
+#...............................
+# some definitions
+
+set NEVT='150000'
+set INPUT=
+set OPTION=
+set FITID=
+
+@ OFFSET = ( ( $FITID - 1 ) * 25 ) + 1
+
+set MIN=$OFFSET
+
+@ MAX = $MIN + 24
+
+# ..............................
+#      copy Input Sandox
+
+cd ${WORKDIR}
+cp -r ${EXECDIR}/findROOT .
+cp -r ${EXECDIR}/setROOT.csh .
+cp -r ${EXECDIR}/stepOne .
+cp -r ${EXECDIR}/initialSO'_'${OPTION}'_'0.dat .
+rfcp ${CASTOR_HOME}/ToyMCdata/${INPUT} .
+
+#...............................
+#      Important: set ROOT
+
+chmod +x findROOT
+source setROOT.csh
+
+#..... run the executable ......
+
+chmod +x stepOne
+tar xvf ${INPUT}
+
+set INFILE=phis_study'_'${OPTION}
+set INITIAL=initialSO'_'${OPTION}
+
+foreach i ( `seq $MIN $MAX` )
+
+  set paramfile=${INITIAL}'_'$i.dat;
+  cp initialSO'_'${OPTION}'_'0.dat ${paramfile};
+  ./stepOne ${INFILE}'_'$i.root ${NEVT};
+
+end
+
+set results=results'_'${OPTION}'_'${FITID}.tar
+
+tar cvf ${results} *.dat
+
+# .......copy output files.......
+
+rfcp ${results} ${CASTOR_HOME}/ToyMCfits
+
+# ...... clean the area .........
+
+rm *.tar
+rm *.root
+rm *.dat
+
+# ...............................
+
+ls *.* >! RETURN
+
+echo "${0}: Done"
+
+exit 0
+

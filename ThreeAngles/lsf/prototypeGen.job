@@ -1,0 +1,55 @@
+#!/bin/csh
+#######################################################
+# Script for MC Toy data generation
+# Andres Osorio - aooliver@ph.ed.ac.uk
+	
+setenv EXECDIR /afs/cern.ch/user/a/aosorio/Work/ThreeAngles/exe
+
+#...............................
+# some definitions
+
+set NEVT='150000'
+set DATA=
+set OPTION=
+set GENID=
+
+@ OFFSET = ( ( $GENID - 1 ) * 25 ) + 1
+    
+echo "Offset: ${OFFSET}"
+
+# ..............................
+#      copy Input Sandox
+
+cd ${WORKDIR}
+cp -r ${EXECDIR}/findROOT .
+cp -r ${EXECDIR}/setROOT.csh .
+cp -r ${EXECDIR}/generate .
+cp -r ${EXECDIR}/${DATA} .
+
+#...............................
+#      Important: set ROOT
+
+chmod +x findROOT
+source setROOT.csh
+
+#..... run the executable ......
+
+chmod +x generate
+
+./generate ${DATA} ${OPTION} ${NEVT} ${OFFSET}
+    
+set results=results'_'$OPTION'_'$GENID.tar
+
+tar cvf ${results} *.root
+rm *.root
+
+# .......copy output files.......
+
+rfcp ${results} ${CASTOR_HOME}/ToyMCdata
+rm -f ${results}
+ls *.* >! RETURN
+
+echo "${0}: Done"
+
+exit 0
+

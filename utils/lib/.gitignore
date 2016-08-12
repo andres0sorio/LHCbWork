@@ -1,0 +1,15 @@
+### directories ###
+
+### file types ###
+*.a
+*.so
+*.pdf
+*.png
+*.pyc
+*.tex
+*.aux
+*.synctex.gz
+*.root
+*.log
+*.stdout
+*.stderr

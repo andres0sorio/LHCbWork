@@ -1,0 +1,21 @@
+\documentclass[landscape,twocolumn,a4paper]{article}
+
+\setlength{\oddsidemargin}{0in}		% default=0in
+\setlength{\textwidth}{9in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+\setlength{\columnseprule}{1pt}		% default=0pt (no line)
+
+\setlength{\textheight}{5.85in}		% default=5.15in
+\setlength{\topmargin}{-0.15in}		% default=0.20in
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+\setlength{\parindent}{0mm}
+
+\title{wwAnalysis}
+\author{andres@hep.man.ac.uk}
+\date{November 2003}
+
+\begin{document}
+\maketitle

@@ -1,0 +1,35 @@
+\documentclass[landscape,twocolumn,a4paper]{article}
+
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{graphics}
+\pagestyle{headings}
+
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+\setlength{\oddsidemargin}{0in}		% default=0in
+\setlength{\textwidth}{10in}		% default=9in
+
+\setlength{\columnsep}{10pt}		% default=10pt
+\setlength{\columnseprule}{1pt}		% default=0pt (no line)
+
+\setlength{\textheight}{5.50in}		% default=5.15in
+\setlength{\topmargin}{-0.15in}		% default=0.20in
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+\setlength{\parindent}{0mm}
+
+\begin{document}

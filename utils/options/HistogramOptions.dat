@@ -1,0 +1,14 @@
+Mrecoil			M_{recoil}(GeV)			Events
+Ptrans			P_{T}(GeV)			Events
+Etrans			E_{T}(GeV)			Events
+Cos_miss		|cos(#theta_{Pmiss})|		Events
+Cos_pemax		|cos(#theta_{Pemax})|		Events
+Tracks_in_Jets		N_{tracks}_in_Jets		Events
+EsumAroundTrack		E_{cone}(GeV)			Events
+m_W			M_{W}(GeV)			Events
+m_Z			M_{Z}(GeV)			Events
+m_WW			M_{WW}(GeV)			Events				
+Ycut1_vs_Ycut2		ycut_{1}_vs_ycut_{2}		-
+dsigma_dMww		M_{WW}(GeV)			d#sigma/dM_{WW}(fb/GeV)
+dsigma_dCos_theta	|cos(#theta^{*})|		d#sigma/dcos#theta^{*}(fb)
+Armentero		#alpha				P_{T}(GeV)
